@@ -16,7 +16,7 @@ const config = {
 		}),
 		paths: process.env['DEPLOY']
 			? {
-				base: `/mermaid-live-editor/public`
+				base: `/flowcast/public`
 			}
 			: {},
 		trailingSlash: 'ignore',
