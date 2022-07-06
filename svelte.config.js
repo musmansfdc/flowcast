@@ -16,7 +16,7 @@ const config = {
 		}),
 		paths: process.env['DEPLOY']
 			? {
-				base: `/mermaid-live-editor`
+				base: `/mermaid-live-editor/public`
 			}
 			: {},
 		trailingSlash: 'ignore',
