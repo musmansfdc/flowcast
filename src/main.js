@@ -1,4 +1,4 @@
-import App from './routes/edit.svelte';//'./app.html';//
+import App from './App.svelte';//'./app.html';//
 
 const app = new App({
 	target: document.body,
