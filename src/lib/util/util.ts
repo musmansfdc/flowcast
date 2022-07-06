@@ -20,5 +20,5 @@ export const initHandler = async (): Promise<void> => {
 	syncDiagram();
 	initURLSubscription();
 	await initAnalytics();
-	analytics?.page();
+	analytics?.page();	
 };

@@ -26,6 +26,7 @@ export interface Tab {
 export interface State {
 	code: string;
 	mermaid: string;
+	tokens: string;
 	updateEditor: boolean;
 	updateDiagram: boolean;
 	autoSync: boolean;

@@ -42,8 +42,9 @@
 <div class="navbar mb-2 shadow-lg bg-primary">
 	<div class="flex-1 px-2 mx-2">
 		<span class="text-lg font-bold">
-			<a href="/">Mermaid<span class="text-xs font-thin">v{version}</span> Live Editor</a>
-		</span>
+			<a href="/"
+				>Flowcast<!--span class="text-xs font-thin">v{version}</~span> Live Editor</a-->
+			</a></span>
 	</div>
 	<label for="menu-toggle" class="pointer-cursor lg:hidden block"
 		><svg
@@ -57,7 +58,7 @@
 	<input class="hidden" type="checkbox" id="menu-toggle" />
 
 	<Theme />
-	<div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
+	<!--div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
 		<ul class="lg:flex items-center justify-between text-base pt-4 lg:pt-0">
 			{#each links as { title, href, icon }}
 				<li>
@@ -69,7 +70,7 @@
 				</li>
 			{/each}
 		</ul>
-	</div>
+	</div-->
 </div>
 
 <style>

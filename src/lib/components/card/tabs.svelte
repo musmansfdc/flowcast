@@ -6,6 +6,8 @@
 	export let tabs: Tab[] = [];
 	export let title: string;
 	export let isOpen = false;
+	export let isOpenDiagram = false;
+	export let cardIcon = '';
 
 	$: activeTabID = tabs[0]?.id;
 
@@ -14,14 +16,30 @@
 		activeTabID = tab.id;
 		dispatch('select', tab);
 	};
+
+	const toggleSideBar = () => {
+		let toggleSide = (isOpenDiagram = !isOpenDiagram);
+		document.getElementById('editorPane').style.width = toggleSide ? '0%' : '35%';
+		document.getElementById('editorPane').style.transitionDuration = '0.7s';
+		return toggleSide;
+	};
 </script>
 
 <div class="flex cursor-default">
-	<span class="mr-2 font-semibold" on:click|stopPropagation={() => (isOpen = !isOpen)}>
-		{#if isCloseable}
-			<i class="fas fa-chevron-right icon" class:isOpen />
+	<div>
+		{#if cardIcon == 'bookmark'}
+			<div class="btn btn-secondary btn-xs" on:click|stopPropagation={() => toggleSideBar()}>
+				<i class="fas fa-chevron-left icon" class:isOpenDiagram />
+			</div>
 		{/if}
-		{title}</span>
+
+		<span class="mr-2 font-semibold" on:click|stopPropagation={() => (isOpen = !isOpen)}>
+			{#if isCloseable}
+				<i class="fas fa-chevron-right icon" class:isOpen />
+			{/if}
+
+			{title}</span>
+	</div>
 	{#if isOpen && tabs}
 		<ul class="tabs" transition:fade>
 			{#each tabs as tab}
@@ -42,5 +60,12 @@
 	}
 	.isOpen {
 		transform: rotate(90deg);
+	}
+	.isOpenDiagram {
+		-webkit-transform: rotate(180deg);
+		-moz-transform: rotate(180deg);
+		-ms-transform: rotate(180deg);
+		-o-transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
 </style>

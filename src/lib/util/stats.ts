@@ -1,10 +1,23 @@
 import { browser } from '$app/env';
 import type { AnalyticsInstance } from 'analytics';
+//import type {AnnyangInstance} from 'annyang';
 
 export let analytics: AnalyticsInstance;
+//export let annyang: AnnyangInstance;
+
+/*export const initAnnyang = async (): Promise<void> => {
+	if (browser && !annyang) {
+		try {
+			const { Annyang } = await import('annyang');
+			annyang = Annyang;
+		} catch {
+			console.info('Analytics blocked ;)');
+		}
+	}
+};*/
 
 export const initAnalytics = async (): Promise<void> => {
-	if (browser && !analytics) {
+	/*if (browser && !analytics) {
 		try {
 			const { Analytics } = await import('analytics');
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -22,7 +35,7 @@ export const initAnalytics = async (): Promise<void> => {
 		} catch {
 			console.info('Analytics blocked ;)');
 		}
-	}
+	}*/
 };
 
 const detectType = (text: string): string => {
@@ -35,7 +48,7 @@ const detectType = (text: string): string => {
 // manual debounce
 let timeout;
 export const saveStatistics = (graph: string): void => {
-	if (analytics) {
+	/*if (analytics) {
 		clearTimeout(timeout);
 		// Only save statistics after a 5 sec delay
 		timeout = setTimeout(function () {
@@ -45,5 +58,5 @@ export const saveStatistics = (graph: string): void => {
 				graphType
 			});
 		}, 5000);
-	}
+	}*/
 };

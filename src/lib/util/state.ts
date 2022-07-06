@@ -2,17 +2,25 @@ import { writable, get, derived } from 'svelte/store';
 import type { Readable } from 'svelte/store';
 import { persist, localStorage } from '@macfja/svelte-persistent-store';
 import type { State } from '$lib/types';
-import { saveStatistics } from './stats';
+//import { saveStatistics } from './stats';
 import { serializeState, deserializeState } from './serde';
 
 export const defaultState: State = {
-	code: `graph TD
-    A[Christmas] -->|Get money| B(Go shopping)
+	code: `sequenceDiagram
+	actor User
+	User->>+object 1: message
+	loop Process data
+	object 1->>+object 2: message			
+	end
+	object 1->>+object 3: asynchronousMessage
+	object 3->>+object 1: asynchronousMessage
+	object 1->>+User: message`,/*`graph TD
+    A[Christmas] -->|Get s dsds money| B(Go shopping)
     B --> C{Let me think}
     C -->|One| D[Laptop]
     C -->|Two| E[iPhone]
     C -->|Three| F[fa:fa-car Car]
-  `,
+  `,*/
 	mermaid: JSON.stringify(
 		{
 			theme: 'default'
@@ -22,7 +30,8 @@ export const defaultState: State = {
 	),
 	updateEditor: false,
 	autoSync: true,
-	updateDiagram: true
+	updateDiagram: true,
+	tokens: null
 };
 
 const urlParseFailedState = `graph TD
@@ -59,6 +68,10 @@ export const loadState = (data: string): void => {
 		}
 
 		state.mermaid = JSON.stringify(mermaidConfig, null, 2);
+		/*state.tokens = JSON.stringify([{
+			token_name: 'Account',
+			token_type: 'sObject'
+		}]);*/
 	} catch (e) {
 		state = get(codeStore);
 		if (data) {
@@ -77,7 +90,7 @@ export const updateCodeStore = (newState: State): void => {
 
 let prompted = false;
 export const updateCode = (code: string, updateEditor: boolean, updateDiagram = false): void => {
-	saveStatistics(code);
+	//saveStatistics(code);
 	const lines = (code.match(/\n/g) || '').length + 1;
 
 	if (lines > 50 && !prompted && get(codeStore).autoSync) {
@@ -100,6 +113,12 @@ export const updateCode = (code: string, updateEditor: boolean, updateDiagram = 
 export const updateConfig = (config: string, updateEditor: boolean): void => {
 	codeStore.update((state) => {
 		return { ...state, mermaid: config, updateEditor };
+	});
+};
+
+export const updateTokens = (tokens: string, updateEditor: boolean): void => {
+	codeStore.update((state) => {
+		return { ...state, tokens, updateEditor };
 	});
 };
 

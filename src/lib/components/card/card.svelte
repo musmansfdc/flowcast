@@ -6,6 +6,7 @@
 	export let isOpen = true;
 	export let tabs: Tab[] = [];
 	export let title: string;
+	export let cardIcon: string;
 	$: isOpen = isCloseable ? isOpen : true;
 	$: isTabsShown = isOpen && tabs.length > 0;
 </script>
@@ -15,7 +16,7 @@
 		class="bg-primary p-2 {isTabsShown ? 'pb-0' : ''} flex-none cursor-pointer"
 		on:click={() => (isOpen = !isOpen)}>
 		<div class="flex justify-between">
-			<Tabs on:select {tabs} bind:isOpen {title} {isCloseable} />
+			<Tabs on:select {tabs} bind:isOpen {title} {isCloseable} bind:cardIcon />
 			<div class="flex gap-x-4 items-center {isTabsShown ? '-mt-2' : ''}">
 				<slot name="actions" />
 			</div>

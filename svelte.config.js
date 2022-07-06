@@ -16,16 +16,13 @@ const config = {
 		}),
 		paths: process.env['DEPLOY']
 			? {
-					base: `/mermaid-live-editor`
-			  }
+				base: `/mermaid-live-editor`
+			}
 			: {},
 		trailingSlash: 'ignore',
 		vite: {
 			envPrefix: 'MERMAID_',
 			optimizeDeps: { include: ['mermaid'] }
-		},
-		prerender: {
-			default: true
 		}
 	}
 };

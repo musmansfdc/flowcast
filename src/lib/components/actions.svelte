@@ -10,14 +10,11 @@
 
 	type Exporter = (context: CanvasRenderingContext2D, image: HTMLImageElement) => () => void;
 
-	const getFileName = (ext: string) =>
-		`mermaid-diagram-${moment().format('YYYY-MM-DD-HHmmss')}.${ext}`;
-
 	const getBase64SVG = (svg?: HTMLElement, width?: number, height?: number): string => {
 		svg?.setAttribute('height', `${height}px`);
 		svg?.setAttribute('width', `${width}px`); // Workaround https://stackoverflow.com/questions/28690643/firefox-error-rendering-an-svg-image-to-html5-canvas-with-drawimage
 		if (!svg) {
-			svg = getSvgEl();
+			svg = document.querySelector('#container svg');
 		}
 		const svgString = svg.outerHTML
 			.replaceAll('<br>', '<br/>')
@@ -53,22 +50,6 @@
 		event.preventDefault();
 	};
 
-	const getSvgEl = () => {
-		const svgEl: HTMLElement = document
-			.querySelector('#container svg')
-			.cloneNode(true) as HTMLElement;
-		const fontAwesomeCdnUrl = Array.from(document.head.getElementsByTagName('link'))
-			.map((l) => l.href)
-			.find((h) => h && h.includes('font-awesome'));
-		if (fontAwesomeCdnUrl == null) {
-			return svgEl;
-		}
-		const styleEl = document.createElement('style');
-		styleEl.innerText = `@import url("${fontAwesomeCdnUrl}");'`;
-		svgEl.prepend(styleEl);
-		return svgEl;
-	};
-
 	const simulateDownload = (download: string, href: string): void => {
 		const a = document.createElement('a');
 		a.download = download;
@@ -81,7 +62,7 @@
 			const { canvas } = context;
 			context.drawImage(image, 0, 0, canvas.width, canvas.height);
 			simulateDownload(
-				getFileName('png'),
+				`mermaid-diagram-${moment().format('YYYYMMDDHHmmss')}.png`,
 				canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
 			);
 		};
@@ -121,7 +102,10 @@
 	};
 
 	const onDownloadSVG = () => {
-		simulateDownload(getFileName('svg'), `data:image/svg+xml;base64,${getBase64SVG()}`);
+		simulateDownload(
+			`mermaid-diagram-${moment().format('YYYYMMDDHHmmss')}.svg`,
+			`data:image/svg+xml;base64,${getBase64SVG()}`
+		);
 	};
 
 	const onCopyMarkdown = () => {
@@ -163,36 +147,28 @@
 	});
 </script>
 
-<Card title="Actions" isOpen={true}>
+<Card title="Actions" isOpen={false}>
 	<div class="flex flex-wrap gap-2 m-2">
 		{#if isClipboardAvailable()}
 			<button class="action-btn w-full" on:click={onCopyClipboard}
 				><i class="far fa-copy mr-2" /> Copy Image to clipboard
 			</button>
 		{/if}
-		<button id="downloadPNG" class="action-btn flex-auto" on:click={onDownloadPNG}>
+		<button class="action-btn flex-auto" on:click={onDownloadPNG}>
 			<i class="fas fa-download mr-2" /> PNG
 		</button>
-		<button id="downloadSVG" class="action-btn flex-auto" on:click={onDownloadSVG}>
+		<button class="action-btn flex-auto" on:click={onDownloadSVG}>
 			<i class="fas fa-download mr-2" /> SVG
 		</button>
-		<a target="_blank" href={iUrl}>
-			<button class="action-btn flex-auto">
-				<i class="fas fa-external-link-alt mr-2" /> PNG
-			</button>
-		</a>
-
-		<a target="_blank" href={svgUrl}>
-			<button class="action-btn flex-auto">
-				<i class="fas fa-external-link-alt mr-2" /> SVG
-			</button>
-		</a>
-
-		<a target="_blank" href={krokiUrl}>
-			<button class="action-btn flex-auto">
-				<i class="fas fa-external-link-alt mr-2" /> Kroki
-			</button>
-		</a>
+		<button class="action-btn flex-auto">
+			<a target="_blank" href={iUrl}><i class="fas fa-external-link-alt mr-2" /> PNG</a>
+		</button>
+		<button class="action-btn flex-auto">
+			<a target="_blank" href={svgUrl}><i class="fas fa-external-link-alt mr-2" /> SVG</a>
+		</button>
+		<button class="action-btn flex-auto">
+			<a target="_blank" href={krokiUrl}><i class="fas fa-external-link-alt mr-2" /> Kroki</a>
+		</button>
 
 		<div class="flex gap-2 items-center">
 			PNG size
