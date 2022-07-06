@@ -16,10 +16,10 @@ export const get = (): { body: unknown } => {
 					sizes: '512x512'
 				}
 			],
-			start_url: `${base}/public/`,
+			start_url: `${base}/edit/`,
 			background_color: '#6366F1',
 			display: 'standalone',
-			scope: `${base}/public/`,
+			scope: `${base}/edit/`,
 			theme_color: '#6366F1',
 			description: 'FlowChart & Diagrams Editor.',
 			orientation: 'landscape'

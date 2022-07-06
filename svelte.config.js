@@ -16,7 +16,7 @@ const config = {
 		}),
 		paths: process.env['DEPLOY']
 			? {
-				base: `/flowcast/public`
+				base: `/flowcast`
 			}
 			: {},
 		trailingSlash: 'ignore',
